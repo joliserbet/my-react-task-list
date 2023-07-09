@@ -10,6 +10,8 @@ const TaskList = ({addTodo}) => {
       addTodo(value);
       setValue("")
     }
+
+    
   return (
     <form className="TodoForm" onSubmit={handleSubmit}>
       <input
@@ -19,7 +21,7 @@ const TaskList = ({addTodo}) => {
         placeholder="What is the task now"
         onChange={e => {setValue(e.target.value)}}
       />
-      <button className="todo-btn">Add Task</button>
+      <button onClick={handleSubmit} className="todo-btn">Add Task</button>
     </form>
   );        
 };
