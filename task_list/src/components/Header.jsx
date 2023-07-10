@@ -1,19 +1,28 @@
 import React from "react";
 import TaskList from "./taskList";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Task from "./Task";
 import { v4 as uuidv4 } from "uuid";
 uuidv4();
 
 const Header = () => {
   const [todos, setTodos] = useState([]);
-  const [editingTaskId, setEditingTaskId] = useState(null);
+
+  useEffect(() => {
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+      setTodos(JSON.parse(storedTodos));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+    console.log("Tareas almacenadas en localStorage:", localStorage.getItem("todos"));
+  }, [todos]);
 
   const addTodo = (todo) => {
-    setTodos([
-      ...todos,
-      { id: uuidv4(), task: todo, completed: false, isEditing: false },
-    ]);
+    const newTodo = { id: uuidv4(), task: todo, completed: false, isEditing: false };
+    setTodos([...todos, newTodo]);
     console.log(todos);
   };
 
@@ -52,7 +61,6 @@ const Header = () => {
         return todo;
       })
     );
-    setEditingTaskId(null);
   };
 
   return (
@@ -66,8 +74,8 @@ const Header = () => {
             task={todo}
             deleteTodo={deleteTodo}
             editTodo={editTodo}
-            updateTodo={updateTodo}
             completeTodo={completeTodo}
+            updateTodo={updateTodo}
           />
         ) : (
           <Task
