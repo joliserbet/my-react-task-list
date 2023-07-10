@@ -13,7 +13,7 @@ const TaskList = ({addTodo}) => {
 
     
   return (
-    <form className="TodoForm" onSubmit={handleSubmit}>
+    <form id="form" name="form" className="TodoForm" onSubmit={handleSubmit}>
       <input
         type="text"
         className="todo-input"
